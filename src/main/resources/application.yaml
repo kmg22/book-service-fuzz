@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: BookService
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+openapi:
+  book:
+    url: https://www.aladin.co.kr/ttb/api/ItemSearch.aspx
+    key: ${openapi.book.key}
