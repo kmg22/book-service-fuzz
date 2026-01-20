@@ -17,6 +17,8 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bookdb
+      SPRING_DATASOURCE_USERNAME: bookservice_admin
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       ALADIN_API_KEY: ${ALADIN_API_KEY}
       SERVER_PORT: 9000
     networks:
