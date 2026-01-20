@@ -48,7 +48,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 2222
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yaml"
           target: "~/book-service"
 
       # 5. 홈서버 원격 배포 실행
