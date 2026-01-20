@@ -1,6 +1,6 @@
 spring:
-  profiles:
-    include: secret
+  #profiles:
+    #include: secret
   
   application:
     name: BookService

@@ -62,12 +62,12 @@ jobs:
           script: |
             cd ~/book-service
             # 환경변수를 명시적으로 주입하여 컨테이너 재시작
-            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} \
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-            ALADIN_API_KEY=${{ secrets.ALADIN_API_KEY }} \
+            DOCKER_USERNAME='${{ secrets.DOCKER_USERNAME }}' \
+            DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+            ALADIN_API_KEY='${{ secrets.ALADIN_API_KEY }}' \
             docker compose pull
 
-            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} \
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
-            ALADIN_API_KEY=${{ secrets.ALADIN_API_KEY }} \
+            DOCKER_USERNAME='${{ secrets.DOCKER_USERNAME }}' \
+            DB_PASSWORD='${{ secrets.DB_PASSWORD }}' \
+            ALADIN_API_KEY='${{ secrets.ALADIN_API_KEY }}' \
             docker compose up -d
