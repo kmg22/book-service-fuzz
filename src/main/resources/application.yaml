@@ -1,11 +1,15 @@
 spring:
+  profiles:
+    include: secret
+  
   application:
     name: BookService
+  
   datasource:
     url: jdbc:postgresql://localhost:5432/bookdb
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.driver
+    username: bookservice_admin
+    password: dlfroal
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,5 +21,11 @@ spring:
 
 openapi:
   book:
-    url: https://www.aladin.co.kr/ttb/api/ItemSearch.aspx
-    key: ${openapi.book.key}
+    url: https://www.aladin.co.kr/ttb/api
+    key: ${ALADIN_API_KEY}
+
+# 로깅
+logging:
+  level:
+    com.kmg.BookService: DEBUG
+    org.springframework.web.client: DEBUG
