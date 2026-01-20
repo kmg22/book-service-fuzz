@@ -49,7 +49,7 @@ jobs:
           port: 2222
           source: "docker-compose.yaml"
           target: "~/book-service"
-          strip_components: 1
+          strip_components: 0
 
       # 5. 홈서버 원격 배포 실행
       - name: Remote Deployment Execution
