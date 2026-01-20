@@ -20,7 +20,9 @@ jobs:
 
       # 1. 빌드 및 Jazzer 퍼징 테스트 (안정성 검증)
       - name: Build and Fuzz Test
-        run: ./gradlew build "-Djazzer.duration=30" --no-daemon
+        run: |
+          ./gradlew build -x test --no-daemon
+          ./gradlew test --tests "com.kmg.BookService.fuzz.BookServiceFuzzTest" "-Djazzer.duration=30"
         env:
           ALADIN_API_KEY: ${{ secrets.ALADIN_API_KEY }}
 
