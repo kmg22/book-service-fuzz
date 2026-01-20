@@ -1,0 +1,77 @@
+name: BookService CI/CD
+
+on:
+  push:
+    branches: [ "main" ] # main 브랜치에 푸시될 때 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # 1. 빌드 및 Jazzer 퍼징 테스트 (안정성 검증)
+      - name: Build and Fuzz Test
+        run: ./gradlew build "-Djazzer.duration=30" --no-daemon
+        env:
+          ALADIN_API_KEY: ${{ secrets.ALADIN_API_KEY }}
+
+      # 2. 도커 로그인
+      - name: Docker Hub Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 3. 도커 이미지 빌드 및 푸시
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/book-service:latest .
+          docker push ${{ secrets.DOCKER_USERNAME }}/book-service:latest
+
+      # 4. 홈서버에 배포 폴더 생성 (디렉토리가 없으면 SCP가 실패할 수 있음)
+      - name: Create Deployment Directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: mkdir -p ~/book-service
+
+      # 5. 홈서버로 docker-compose.yml 파일 전송
+      - name: Copy docker-compose.yml to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "~/book-service"
+
+      # 6. 홈서버 원격 배포 실행
+      - name: Remote Deployment Execution
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/book-service
+            # 환경변수를 명시적으로 주입하여 컨테이너 재시작
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} \
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            ALADIN_API_KEY=${{ secrets.ALADIN_API_KEY }} \
+            docker compose pull
+
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} \
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            ALADIN_API_KEY=${{ secrets.ALADIN_API_KEY }} \
+            docker compose up -d

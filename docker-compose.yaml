@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    container_name: book-db
+    environment:
+      POSTGRES_DB: bookdb
+      POSTGRES_USER: bookservice_admin
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - book-network
+
+  app:
+    image: ${DOCKER_USERNAME}/book-service:latest
+    container_name: book-app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bookdb
+      ALADIN_API_KEY: ${ALADIN_API_KEY}
+      SERVER_PORT: 9000
+    networks:
+      - book-network
+      - nginx-proxy-manager_default #  NPM과 연결된 네트워크 추가 'docker network ls'
+
+networks:
+  book-network:
+  nginx-proxy-manager_default:
+    external: true # 이미 존재하는 NPM 네트워크를 사용
