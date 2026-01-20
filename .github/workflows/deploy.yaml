@@ -55,6 +55,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 2222
           source: "docker-compose.yml"
           target: "~/book-service"
 
@@ -65,6 +66,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_KEY }}
+          port: 2222
           script: |
             cd ~/book-service
             # 환경변수를 명시적으로 주입하여 컨테이너 재시작
