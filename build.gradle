@@ -40,8 +40,12 @@ dependencies {
 	// json 문자열 -> java 객체
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 
+	// Jazzer JUnit 5 Integration
+    testImplementation 'com.code-intelligence:jazzer-junit:0.22.1'
+
 }
 
 tasks.named('test') {
+	systemProperties System.getProperties()
 	useJUnitPlatform()
 }
