@@ -2,7 +2,6 @@
 FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
 COPY . .
-# Jazzer 퍼징 테스트를 포함하여 빌드 (실패 시 배포 중단)
 RUN ./gradlew build -x test --no-daemon
 
 # 2. Run stage
