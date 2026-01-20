@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  db:
+  bookservice-db:
     image: postgres:15
     container_name: book-db
     environment:
@@ -14,9 +14,9 @@ services:
     image: ${DOCKER_USERNAME}/book-service:latest
     container_name: book-app
     depends_on:
-      - db
+      - bookservice-db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bookdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://bookservice-db:5432/bookdb
       SPRING_DATASOURCE_USERNAME: bookservice_admin
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       ALADIN_API_KEY: ${ALADIN_API_KEY}

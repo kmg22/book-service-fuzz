@@ -6,7 +6,7 @@ spring:
     name: BookService
   
   datasource:
-    url: jdbc:postgresql://db:5432/bookdb
+    url: jdbc:postgresql://bookservice-db:5432/bookdb
     username: bookservice_admin
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
