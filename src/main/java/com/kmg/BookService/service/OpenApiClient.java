@@ -3,6 +3,7 @@ package com.kmg.BookService.service;
 import com.kmg.BookService.dto.AladinItem;
 import com.kmg.BookService.dto.AladinResponse;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import java.util.Collections;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class OpenApiClient {
     @Value("${openapi.book.url}")
     private String apiUrl;
@@ -25,7 +27,7 @@ public class OpenApiClient {
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
     
     // 1) 검색 API
     public List<AladinItem> search(String query) {
