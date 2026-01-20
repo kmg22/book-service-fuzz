@@ -6,7 +6,7 @@ COPY . .
 RUN ./gradlew build -Djazzer.duration=30 --no-daemon
 
 # 2. Run stage
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 EXPOSE 9000
 COPY --from=build /app/build/libs/*.jar app.jar
