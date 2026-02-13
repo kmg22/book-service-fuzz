@@ -48,6 +48,10 @@ dependencies {
 
 }
 
+jar {
+    enabled = false
+}
+
 tasks.named('test') {
 	systemProperties System.getProperties()
 	useJUnitPlatform()
