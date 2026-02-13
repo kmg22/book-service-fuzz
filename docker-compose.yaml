@@ -20,7 +20,7 @@ services:
       SPRING_DATASOURCE_USERNAME: bookservice_admin
       SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
       ALADIN_API_KEY: ${ALADIN_API_KEY}
-      SERVER_PORT: 9000
+      SERVER_PORT: 9010
     networks:
       - book-network
       - nginx-proxy-manager_default #  NPM과 연결된 네트워크 추가 'docker network ls'
